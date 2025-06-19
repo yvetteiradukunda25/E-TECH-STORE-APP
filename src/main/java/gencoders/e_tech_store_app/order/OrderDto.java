@@ -13,9 +13,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class OrderDto {
 
-    private Long user_id;
     private BigDecimal totalAmount;
     private String shippingAddress;
     private String status;
     private String paymentStatus;
+
 }

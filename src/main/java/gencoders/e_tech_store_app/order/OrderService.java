@@ -1,5 +1,6 @@
 package gencoders.e_tech_store_app.order;
 
+import gencoders.e_tech_store_app.payment.PaymentStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,20 +23,32 @@ public class OrderService {
 
         return orderRepository.findAll();
     }
+
     public Order findOrderById(Long id) {
-        return orderRepository.findById(id).orElse(null);
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order ID " + id + " not found"));
     }
+
+
     public Order updateOrder(Long id, OrderDto updatedOrder) {
-        Order order = orderRepository.findById(id).orElse(null);new RuntimeException("User not found");
-        order.setUser_id(updatedOrder.getUser_id());
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order ID " + id + " not found"));
+
         order.setTotalAmount(updatedOrder.getTotalAmount());
         order.setShippingAddress(updatedOrder.getShippingAddress());
-        order.setStatus(OrderStatus.valueOf(updatedOrder.getStatus()));
+        order.setStatus(OrderStatus.valueOf(updatedOrder.getStatus().toUpperCase()));
+        order.setPaymentStatus(PaymentStatus.valueOf(updatedOrder.getPaymentStatus().toUpperCase()));
+
+
         return orderRepository.save(order);
     }
 
+
     public void deleteOrderById(long id) {
-        Order order = orderRepository.findById(id).orElseThrow(null);new RuntimeException("User not found");
-        orderRepository.deleteById(id);
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order ID " + id + " not found"));
+
+        orderRepository.delete(order);
     }
+
 }
