@@ -1,6 +1,5 @@
 package gencoders.e_tech_store_app.reviews;
 
-
 import gencoders.e_tech_store_app.product.Product;
 import gencoders.e_tech_store_app.user.User;
 import jakarta.persistence.*;
