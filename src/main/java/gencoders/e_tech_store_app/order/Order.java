@@ -1,5 +1,6 @@
 package gencoders.e_tech_store_app.order;
 
+import gencoders.e_tech_store_app.orderItem.OrderItem;
 import gencoders.e_tech_store_app.payment.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Getter
@@ -26,7 +28,6 @@ public class Order {
 
     private String shippingAddress;
 
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderStatus status;
@@ -43,14 +44,12 @@ public class Order {
     public void prePersist() {
         this.orderDate = LocalDateTime.now();
     }
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItem;
+
 }
 
-     // @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-//    private List<OrderItem> orderItems;
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(name = "payment_status", nullable = false)
-
-//    private PaymentStatus paymentStatus;
 
 

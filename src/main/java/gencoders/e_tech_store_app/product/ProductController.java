@@ -1,7 +1,5 @@
 package gencoders.e_tech_store_app.product;
 
-
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,18 +12,9 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping("/Api/create")
-    public Product createProduct(@RequestBody ProductDto productDto) {
-        Product product = new Product();
-     product.setProduct_Name(productDto.getProduct_Name());
-     product.setProduct_Type(productDto.getProduct_Type());
-     product.setPrice(productDto.getPrice());
-     product.setDiscount_price(productDto.getDiscount_price());
-     product.setStock_quantity(productDto.getStock_quantity());
-     product.setDescription(productDto.getDescription());
-     product.setBrand(productDto.getBrand());
-     product.setImage_Url(productDto.getImage_Url());
-        return productService.createProduct(product);
+    @PostMapping("/create")
+    public Product create(@RequestBody ProductDto Dto) {
+        return productService.createProduct(Dto);
     }
 
 
@@ -40,22 +29,14 @@ public class ProductController {
 
     }
 
-    public Product updateProduct(@PathVariable long id, @RequestBody ProductDto productDto) {
-        Product product = productService.findProductById(id);
-        product.setProduct_Name(productDto.getProduct_Name());
-        product.setProduct_Type(productDto.getProduct_Type());
-        product.setDescription(productDto.getDescription());
-        product.setPrice(productDto.getPrice());
-        product.setDiscount_price(productDto.getDiscount_price());
-        product.setStock_quantity(productDto.getStock_quantity());
-        product.setDescription(productDto.getDescription());
-        product.setImage_Url(productDto.getImage_Url());
-
-        return productService.updateProduct(id, productDto);
+    @PutMapping("/update/{id}")
+    public Product update(@PathVariable Long id, @RequestBody ProductDto dto) {
+        return productService.updateProduct(id, dto);
     }
 
-//   @DeleteMapping("/Api/{id}")
-// public Product deleteProductById(@PathVariable long id) {
-//       return productService.deleteProductById(id);
-//   }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteProductById(@PathVariable long id) {
+        productService.deleteProductById(id);
+    }
 }

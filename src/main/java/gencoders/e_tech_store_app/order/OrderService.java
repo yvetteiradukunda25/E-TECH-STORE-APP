@@ -14,8 +14,12 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public Order createOrder(Order order) {
-
+    public Order createOrder(OrderDto dto) {
+    Order order = new Order();
+    order.setTotalAmount(dto.getTotalAmount());
+    order.setShippingAddress(dto.getShippingAddress());
+    order.setStatus(OrderStatus.valueOf(dto.getStatus().toUpperCase()));
+    order.setPaymentStatus(PaymentStatus.valueOf(dto.getPaymentStatus().toUpperCase()));
         return orderRepository.save(order);
     }
 
@@ -30,14 +34,14 @@ public class OrderService {
     }
 
 
-    public Order updateOrder(Long id, OrderDto updatedOrder) {
+    public Order updateOrder(Long id, OrderDto dto) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order ID " + id + " not found"));
 
-        order.setTotalAmount(updatedOrder.getTotalAmount());
-        order.setShippingAddress(updatedOrder.getShippingAddress());
-        order.setStatus(OrderStatus.valueOf(updatedOrder.getStatus().toUpperCase()));
-        order.setPaymentStatus(PaymentStatus.valueOf(updatedOrder.getPaymentStatus().toUpperCase()));
+        order.setTotalAmount(dto.getTotalAmount());
+        order.setShippingAddress(dto.getShippingAddress());
+        order.setStatus(OrderStatus.valueOf(dto.getStatus().toUpperCase()));
+        order.setPaymentStatus(PaymentStatus.valueOf(dto.getPaymentStatus().toUpperCase()));
 
 
         return orderRepository.save(order);

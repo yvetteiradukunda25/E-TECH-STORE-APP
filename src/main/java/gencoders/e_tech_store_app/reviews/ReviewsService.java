@@ -2,6 +2,8 @@ package gencoders.e_tech_store_app.reviews;
 
 import gencoders.e_tech_store_app.product.Product;
 import gencoders.e_tech_store_app.product.ProductRepository;
+import gencoders.e_tech_store_app.user.User;
+import gencoders.e_tech_store_app.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +15,18 @@ import java.util.List;
 public class ReviewsService {
     private final ReviewsRepository reviewsRepository;
     private final ProductRepository productRepository;
-//    private final UserRepository userRepository;
+   private final UserRepository userRepository;
 
     public Reviews createReviews(ReviewsDto dto) {
         Product product = productRepository.findById(dto.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        User user  = userRepository.findById(dto.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         Reviews reviews = new Reviews();
         reviews.setProduct(product);
+        reviews.setUser(user);
         reviews.setComment(dto.getComment());
         reviews.setRating(dto.getRating());
         return reviewsRepository.save(reviews);

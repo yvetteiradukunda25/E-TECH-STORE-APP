@@ -23,6 +23,10 @@ public class OrderItem {
 
     private Long id;
 
+    private int quantity;
+
+    private BigDecimal price_at_purchase;
+
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
@@ -31,8 +35,4 @@ public class OrderItem {
     @ManyToOne(optional = false)
     @JoinColumn(name = "product_id")
     private Product product;
-
-    private int quantity;
-
-    private BigDecimal price_at_purchase;
 }

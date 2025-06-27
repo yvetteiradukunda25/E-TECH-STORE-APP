@@ -1,7 +1,6 @@
 package gencoders.e_tech_store_app.order;
 
-import gencoders.e_tech_store_app.payment.PaymentStatus;
-import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +14,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/create")
-    public Order createOrder(@Valid @RequestBody OrderDto orderDto) {
-        Order order = new Order();
-        order.setTotalAmount(orderDto.getTotalAmount());
-        order.setStatus(OrderStatus.valueOf(orderDto.getStatus()));
-        order.setShippingAddress(orderDto.getShippingAddress());
-        order.setPaymentStatus(PaymentStatus.valueOf(orderDto.getPaymentStatus().toUpperCase()));
-
-        return orderService.createOrder(order);
+    public Order create(@RequestBody OrderDto dto) {
+        return orderService.createOrder(dto);
     }
 
     @GetMapping
@@ -35,15 +28,12 @@ public class OrderController {
         return orderService.findOrderById(id);
     }
 
-    @PutMapping("/update/{id}")
-    public Order updateOrder(@PathVariable long id, @RequestBody OrderDto orderDto) {
-        Order order = orderService.findOrderById(id);
-        order.setTotalAmount(orderDto.getTotalAmount());
-        order.setShippingAddress(orderDto.getShippingAddress());
-        order.setStatus(OrderStatus.valueOf(orderDto.getStatus()));
 
-        return orderService.updateOrder(id, orderDto);
+    @PutMapping("/update/{id}")
+    public Order update(@PathVariable Long id, @RequestBody OrderDto dto) {
+        return orderService.updateOrder(id, dto);
     }
+
 
     @DeleteMapping("/delete/{id}")
     public void deleteOrderById(@PathVariable long id) {

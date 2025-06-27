@@ -13,8 +13,6 @@ import gencoders.e_tech_store_app.order.Order;
 import gencoders.e_tech_store_app.order.OrderRepository;
 
 
-import java.util.List;
-
 @Service
 public class OrderItemService {
 
@@ -31,15 +29,15 @@ public class OrderItemService {
     }
 
     public OrderItem createOrderItem(OrderItemDto dto) {
-        // ✅ Fetch the Order by ID
+
         Order order = orderRepository.findById(dto.getOrderId())
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        // ✅ Create and populate OrderItem
+
         OrderItem item = new OrderItem();
         item.setQuantity(dto.getQuantity());
         item.setPrice_at_purchase(dto.getPrice_at_purchase());
-        item.setOrder(order); // 🔑 THIS sets the foreign key properly
+        item.setOrder(order);
 
         Product product = productRepository.findById(dto.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
